@@ -18,14 +18,14 @@
 }
 
 /* === Utility extensions === */
-@utility .btn {
+@utility btn {
   @apply px-5 py-3 rounded-lg font-semibold transition-all;
 }
 
-@utility .btn-primary {
+@utility btn-primary {
   @apply bg-[--color-primary] text-white hover:bg-orange-600;
 }
 
-@utility .btn-outline {
+@utility btn-outline {
   @apply border-2 border-[--color-primary] text-[--color-primary] hover:bg-[--color-primary] hover:text-white;
 }
