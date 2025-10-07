@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* === Theme setup === */
+@theme {
+  --color-primary: #ff7a00;
+  --color-dark: #000000;
+  --color-light: #ffffff;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+/* === Base styling === */
+@layer base {
+  html, body {
+    font-family: var(--font-sans);
+    color: var(--color-dark);
+    background-color: var(--color-light);
+  }
+}
+
+/* === Utility extensions === */
+@utility .btn {
+  @apply px-5 py-3 rounded-lg font-semibold transition-all;
+}
+
+@utility .btn-primary {
+  @apply bg-[--color-primary] text-white hover:bg-orange-600;
+}
+
+@utility .btn-outline {
+  @apply border-2 border-[--color-primary] text-[--color-primary] hover:bg-[--color-primary] hover:text-white;
+}
