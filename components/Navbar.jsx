@@ -29,13 +29,13 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img
-            src={darkMode ? "/logo-dark.png" : "/logo-light.png"}
+            src="/easyadlogo.png"
             alt="EasyAd Logo"
-            className="w-8 h-8"
+            className="w-30 h-10"
           />
-          <h1 className="text-lg font-bold text-orange-600 dark:text-orange-400 tracking-tight">
+          {/* <h1 className="text-lg font-bold text-orange-600 dark:text-orange-400 tracking-tight">
             EasyAd
-          </h1>
+          </h1> */}
         </div>
 
         {/* Desktop Menu */}

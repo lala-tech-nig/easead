@@ -5,27 +5,27 @@ export default function Hero() {
   // Carousel images
 const slides = [
   {
-    image: "/images/hero1.png",
+    image: "/images/hero6.png",
     title: "Promote Your Vision Effortlessly",
     subtitle: "Turn your dreams into professional ads—no marketing skills required.",
   },
   {
-    image: "/images/hero2.jpg",
+    image: "/images/hero2.png",
     title: "Grow Your Business with Ease",
     subtitle: "Create powerful ad campaigns in minutes, not weeks.",
   },
   {
-    image: "/images/hero3.jpg",
+    image: "/images/hero3.png",
     title: "From Idea to Visibility",
     subtitle: "Show the world what you do best—our tools make it simple.",
   },
   {
-    image: "/images/hero4.jpg",
+    image: "/images/hero4.png",
     title: "Run Ads Like a Pro",
     subtitle: "Smart automation handles the hard part so you can focus on results.",
   },
   {
-    image: "/images/hero5.jpg",
+    image: "/images/hero5.png",
     title: "Promote Anything, Anytime",
     subtitle: "Your brand, your message, your success—made easy for everyone.",
   },
