@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata = {
-  title: "AdEase | Simplified Ads for Small Businesses",
+  title: "EasyAd | Simplified Ads for all Businesses",
   description: "We run perfect social media ads for your small business—simple, smart, and affordable.",
 };
 
