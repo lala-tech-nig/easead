@@ -1,38 +1,38 @@
 "use client";
 import { useState, useEffect } from "react";
+import AdRequestForm from "./AdRequestForm"; // 👈 Import your form
 
 export default function Hero() {
-  // Carousel images
-const slides = [
-  {
-    image: "/images/hero6.png",
-    title: "Promote Your Vision Effortlessly",
-    subtitle: "Turn your dreams into professional ads—no marketing skills required.",
-  },
-  {
-    image: "/images/hero2.png",
-    title: "Grow Your Business with Ease",
-    subtitle: "Create powerful ad campaigns in minutes, not weeks.",
-  },
-  {
-    image: "/images/hero3.png",
-    title: "From Idea to Visibility",
-    subtitle: "Show the world what you do best—our tools make it simple.",
-  },
-  {
-    image: "/images/hero4.png",
-    title: "Run Ads Like a Pro",
-    subtitle: "Smart automation handles the hard part so you can focus on results.",
-  },
-  {
-    image: "/images/hero5.png",
-    title: "Promote Anything, Anytime",
-    subtitle: "Your brand, your message, your success—made easy for everyone.",
-  },
-];
-
+  const slides = [
+    {
+      image: "/images/hero6.png",
+      title: "Promote Your Vision Effortlessly",
+      subtitle: "Turn your dreams into professional ads—no marketing skills required.",
+    },
+    {
+      image: "/images/hero2.png",
+      title: "Grow Your Business with Ease",
+      subtitle: "Create powerful ad campaigns in minutes, not weeks.",
+    },
+    {
+      image: "/images/hero3.png",
+      title: "From Idea to Visibility",
+      subtitle: "Show the world what you do best—our tools make it simple.",
+    },
+    {
+      image: "/images/hero4.png",
+      title: "Run Ads Like a Pro",
+      subtitle: "Smart automation handles the hard part so you can focus on results.",
+    },
+    {
+      image: "/images/hero5.png",
+      title: "Promote Anything, Anytime",
+      subtitle: "Your brand, your message, your success—made easy for everyone.",
+    },
+  ];
 
   const [current, setCurrent] = useState(0);
+  const [showForm, setShowForm] = useState(false); // 👈 Track modal state
 
   // Auto-slide every 6 seconds
   useEffect(() => {
@@ -61,7 +61,7 @@ const slides = [
         />
       ))}
 
-      {/* Overlay gradient */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
 
       {/* Content */}
@@ -74,12 +74,14 @@ const slides = [
         </p>
 
         <div className="flex gap-4 flex-wrap justify-center animate-fadeIn delay-300">
-          <a
-            href="#adform"
+          {/* Get Started Button Opens Modal */}
+          <button
+            onClick={() => setShowForm(true)}
             className="px-8 py-3 bg-orange-500 text-white font-semibold rounded-full shadow-lg hover:bg-orange-600 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-1"
           >
             Get Started
-          </a>
+          </button>
+
           <a
             href="#learnmore"
             className="px-8 py-3 border-2 border-white/80 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1"
@@ -101,6 +103,9 @@ const slides = [
           />
         ))}
       </div>
+
+      {/* AdRequestForm Modal */}
+      <AdRequestForm isOpen={showForm} onClose={() => setShowForm(false)} />
     </section>
   );
 }
