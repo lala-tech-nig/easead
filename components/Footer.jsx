@@ -100,9 +100,9 @@ export default function Footer() {
           © {new Date().getFullYear()} <span className="text-orange-500 font-semibold">EasyAd</span> — 
           Simplifying Digital Advertising Across Africa.
         </p>
-        <p className="mt-2">
+        {/* <p className="mt-2">
           Built with ❤️ by <span className="text-orange-500">LALA TECH</span>
-        </p>
+        </p> */}
       </div>
     </footer>
   );
