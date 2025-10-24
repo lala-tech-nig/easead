@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export const metadata = {
   title: "EasyAd | Run Smart Social Media Ads for Your Business",

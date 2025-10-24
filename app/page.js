@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import Steps from "@/components/Steps";
 import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
-import AdForm from "@/components/AdForm";
+import AdForm from "@/components/Testimonial";
 // import Footer from "@/components/Footer";
 
 export default function Home() {
