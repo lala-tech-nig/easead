@@ -23,7 +23,7 @@ export default function AdRequestForm({ isOpen, onClose }) {
     setLoading(true);
 
     try {
-      const response = await fetch("https://easyadbackend.onrender.com/api/ad-requests", {
+      const response = await fetch("https://easyadbackend.onrender.com/api/ad-request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
