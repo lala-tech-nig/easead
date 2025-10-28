@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
-import AdRequestForm from "./AdRequestForm"; // 👈 Import your form
+import { useState, useEffect, useRef } from "react";
+import { FaPlay } from "react-icons/fa";
+import AdRequestForm from "./AdRequestForm";
 
 export default function Hero() {
   const slides = [
@@ -32,7 +33,9 @@ export default function Hero() {
   ];
 
   const [current, setCurrent] = useState(0);
-  const [showForm, setShowForm] = useState(false); // 👈 Track modal state
+  const [showForm, setShowForm] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   // Auto-slide every 6 seconds
   useEffect(() => {
@@ -41,6 +44,22 @@ export default function Hero() {
     }, 6000);
     return () => clearInterval(interval);
   }, [slides.length]);
+
+  // Play audio when Learn More is clicked
+  const handleLearnMoreClick = (e) => {
+    e.preventDefault();
+    if (audioRef.current) {
+      if (!isPlaying) {
+        audioRef.current.play();
+        setIsPlaying(true);
+      } else {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+      }
+    }
+    document.getElementById("learnmore")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const currentSlide = slides[current];
 
@@ -73,8 +92,8 @@ export default function Hero() {
           {currentSlide.subtitle}
         </p>
 
-        <div className="flex gap-4 flex-wrap justify-center animate-fadeIn delay-300">
-          {/* Get Started Button Opens Modal */}
+        <div className="flex gap-4 flex-wrap justify-center animate-fadeIn delay-300 relative">
+          {/* Get Started Button */}
           <button
             onClick={() => setShowForm(true)}
             className="px-8 py-3 bg-orange-500 text-white font-semibold rounded-full shadow-lg hover:bg-orange-600 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-1"
@@ -82,11 +101,22 @@ export default function Hero() {
             Get Started
           </button>
 
+          {/* Learn More Button with Play Icon */}
           <a
             href="#learnmore"
-            className="px-8 py-3 border-2 border-white/80 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1"
+            onClick={handleLearnMoreClick}
+            className="flex items-center gap-2 px-8 py-3 border-2 border-white/80 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1 relative"
           >
+            <FaPlay
+              className={`text-sm transition-transform ${
+                isPlaying ? "rotate-90 text-orange-500" : ""
+              }`}
+            />
             Learn More
+            {/* Animation Indicator */}
+            <span className="absolute -top-6 left-1/2 -translate-x-1/2 animate-bounce text-orange-400 text-sm">
+              👆 Click to Listen
+            </span>
           </a>
         </div>
       </div>
@@ -104,7 +134,10 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* AdRequestForm Modal */}
+      {/* Hidden Audio Player */}
+      <audio ref={audioRef} src="/sounds/easyad-intro.mp3" preload="auto" />
+
+      {/* Modal Form */}
       <AdRequestForm isOpen={showForm} onClose={() => setShowForm(false)} />
     </section>
   );
