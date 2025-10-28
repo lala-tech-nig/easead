@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import PricingForm from "./PricingForm";
+import AdRequestForm from "./AdRequestForm"; // ✅ Updated import
 
 export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -63,7 +63,10 @@ export default function Pricing() {
   ];
 
   return (
-    <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white text-center relative">
+    <section
+      id="pricing"
+      className="py-24 bg-gradient-to-b from-gray-50 to-white text-center relative"
+    >
       <div className="max-w-6xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -80,28 +83,40 @@ export default function Pricing() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-lg text-gray-600 mb-16 max-w-2xl mx-auto"
         >
-          Choose a plan that fits your goals. Each plan is tailored to help your brand grow 
-          with clarity, precision, and measurable impact.
+          Choose a plan that fits your goals. Each plan is tailored to help your
+          brand grow with clarity, precision, and measurable impact.
         </motion.p>
 
         <div className="grid md:grid-cols-4 gap-8">
           {plans.map((plan, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -5, boxShadow: "0px 12px 30px rgba(0,0,0,0.08)" }}
+              whileHover={{
+                y: -5,
+                boxShadow: "0px 12px 30px rgba(0,0,0,0.08)",
+              }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
               className="rounded-2xl border border-gray-200 bg-white p-8 flex flex-col justify-between hover:border-orange-400 transition-all duration-300"
             >
               <div>
-                <div className={`inline-block px-3 py-1 text-sm rounded-full mb-4 font-medium ${plan.accent}`}>
+                <div
+                  className={`inline-block px-3 py-1 text-sm rounded-full mb-4 font-medium ${plan.accent}`}
+                >
                   {plan.name}
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">{plan.tag}</h3>
-                <p className="text-3xl font-extrabold text-orange-600 mb-6">{plan.price}</p>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                  {plan.tag}
+                </h3>
+                <p className="text-3xl font-extrabold text-orange-600 mb-6">
+                  {plan.price}
+                </p>
 
                 <ul className="text-left mb-8 space-y-2 text-gray-700 text-sm">
                   {plan.features.map((f, idx) => (
-                    <li key={idx} className="flex items-start gap-2 leading-relaxed">
+                    <li
+                      key={idx}
+                      className="flex items-start gap-2 leading-relaxed"
+                    >
                       <span>{f}</span>
                     </li>
                   ))}
@@ -119,10 +134,14 @@ export default function Pricing() {
         </div>
       </div>
 
-      {/* Modal Form */}
+      {/* 🧾 Modal Form */}
       <AnimatePresence>
         {selectedPlan && (
-          <PricingForm plan={selectedPlan} onClose={() => setSelectedPlan(null)} />
+          <AdRequestForm
+            isOpen={!!selectedPlan}
+            plan={selectedPlan}
+            onClose={() => setSelectedPlan(null)}
+          />
         )}
       </AnimatePresence>
     </section>
