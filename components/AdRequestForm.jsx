@@ -14,42 +14,67 @@ export default function AdRequestForm({ isOpen, onClose }) {
     referral: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onClose();
+    setLoading(true);
 
-    // 🎉 Confetti Celebration
-    confetti({
-      particleCount: 200,
-      spread: 80,
-      origin: { y: 0.6 },
-    });
-
-    // ✅ Toast Feedback
-    toast.success(
-      `Thanks ${formData.name || "there"}! 🎉 Our team will reach out shortly.`,
-      {
-        duration: 5000,
-        style: {
-          background: "#fff",
-          color: "#333",
-          fontWeight: "600",
+    try {
+      const response = await fetch("https://easyadbackend.onrender.com/api/adrequests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }
-    );
+        body: JSON.stringify(formData),
+      });
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      brand: "",
-      budget: "",
-      goal: "",
-      referral: "",
-    });
+      if (!response.ok) {
+        throw new Error("Failed to submit request");
+      }
+
+      const result = await response.json();
+
+      // 🎉 Confetti Celebration
+      confetti({
+        particleCount: 200,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+
+      // ✅ Toast Feedback
+      toast.success(
+        `Thanks ${formData.name || "there"}! 🎉 Our team will reach out shortly.`,
+        {
+          duration: 5000,
+          style: {
+            background: "#fff",
+            color: "#333",
+            fontWeight: "600",
+          },
+        }
+      );
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        brand: "",
+        budget: "",
+        goal: "",
+        referral: "",
+      });
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast.error("Oops! Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,6 +83,7 @@ export default function AdRequestForm({ isOpen, onClose }) {
         {/* Close Button */}
         <button
           onClick={onClose}
+          disabled={loading}
           className="absolute top-3 right-4 text-gray-400 hover:text-gray-600 text-2xl"
           aria-label="Close form"
         >
@@ -71,58 +97,28 @@ export default function AdRequestForm({ isOpen, onClose }) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Full Name */}
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-          />
-
-          {/* Email */}
-          <input
-            type="email"
-            placeholder="Email Address"
-            className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
-
-          {/* Phone */}
-          <input
-            type="tel"
-            placeholder="Phone Number"
-            className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            required
-          />
-
-          {/* Brand / Business Name */}
-          <input
-            type="text"
-            placeholder="Brand / Business Name"
-            className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={formData.brand}
-            onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-            required
-          />
-
-          {/* Budget */}
-          <input
-            type="number"
-            placeholder="Ad Budget (₦)"
-            className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
-            value={formData.budget}
-            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-            required
-          />
+          {[
+            { type: "text", name: "name", placeholder: "Full Name", required: true },
+            { type: "email", name: "email", placeholder: "Email Address", required: true },
+            { type: "tel", name: "phone", placeholder: "Phone Number", required: true },
+            { type: "text", name: "brand", placeholder: "Brand / Business Name", required: true },
+            { type: "number", name: "budget", placeholder: "Ad Budget (₦)", required: true },
+          ].map((field) => (
+            <input
+              key={field.name}
+              type={field.type}
+              name={field.name}
+              placeholder={field.placeholder}
+              className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
+              value={formData[field.name]}
+              onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+              required={field.required}
+            />
+          ))}
 
           {/* Ad Goal */}
           <textarea
+            name="goal"
             placeholder="Describe Your Ad Goal"
             className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base h-28 resize-none focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={formData.goal}
@@ -130,30 +126,33 @@ export default function AdRequestForm({ isOpen, onClose }) {
             required
           />
 
-          {/* Referral Email (Optional) */}
+          {/* Referral Email */}
           <input
             type="email"
+            name="referral"
             placeholder="Referral Email (if any)"
             className="w-full border rounded-lg px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-400"
             value={formData.referral}
-            onChange={(e) =>
-              setFormData({ ...formData, referral: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
           />
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-black transition-all duration-300 text-sm sm:text-base"
+            disabled={loading}
+            className={`w-full font-semibold py-3 rounded-lg text-sm sm:text-base transition-all duration-300 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-orange-500 text-white hover:bg-black"
+            }`}
           >
-            Submit Request
+            {loading ? "Submitting..." : "Submit Request"}
           </button>
         </form>
 
-        {/* Footer Note */}
         <p className="text-xs sm:text-sm text-gray-500 text-center mt-4">
-          By submitting this form, you agree that our EasyAd team may contact
-          you via email or WhatsApp for your campaign setup.
+          By submitting this form, you agree that our EasyAd team may contact you
+          via email or WhatsApp for your campaign setup.
         </p>
       </div>
     </div>
