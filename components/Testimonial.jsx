@@ -44,17 +44,33 @@ const testimonialsBottom = [
   },
 ];
 
+// ✅ Animated Gradient Border Card
 const TestimonialCard = ({ name, role, quote }) => (
-  <div className="flex-shrink-0 bg-white rounded-2xl shadow-md p-6 w-80 mx-4 border border-gray-100 hover:shadow-xl transition-shadow">
-    <h3 className="font-semibold text-gray-800 mb-1">{name}</h3>
-    <p className="text-sm text-orange-500 mb-3">{role}</p>
-    <p className="text-gray-600 text-sm italic leading-relaxed">“{quote}”</p>
+  <div className="relative flex-shrink-0 w-80 mx-4 rounded-2xl p-[2px] overflow-hidden group transition-transform duration-300 hover:scale-[1.04]">
+    {/* Animated gradient border */}
+    <motion.div
+      className="absolute inset-0 bg-[conic-gradient(from_0deg,theme(colors.orange.400),theme(colors.pink.500),theme(colors.purple.600),theme(colors.orange.400))]"
+      animate={{ rotate: [0, 360] }}
+      transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+    ></motion.div>
+
+    {/* Inner white card */}
+    <div className="relative bg-white rounded-2xl shadow-lg p-6 h-full flex flex-col justify-between border border-white/30">
+      <div>
+        <h3 className="font-semibold text-gray-800 mb-1">{name}</h3>
+        <p className="text-sm text-orange-500 mb-3">{role}</p>
+        <p className="text-gray-600 text-sm italic leading-relaxed">“{quote}”</p>
+      </div>
+    </div>
   </div>
 );
 
 export default function Testimonial() {
   return (
-    <section id="testimonials" className="relative py-24 bg-gray-50 overflow-hidden">
+    <section
+      id="testimonials"
+      className="relative py-24 bg-gray-50 overflow-hidden"
+    >
       <div className="max-w-6xl mx-auto text-center px-6 relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">
           What Our Users Are Saying
@@ -67,9 +83,9 @@ export default function Testimonial() {
 
         {/* Top Row */}
         <div className="relative overflow-hidden">
-          {/* Gradient Overlays */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-20" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-20" />
+          {/* Gradient Overlays (hidden on mobile) */}
+          <div className="hidden md:block pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-20" />
+          <div className="hidden md:block pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-20" />
 
           <motion.div
             className="flex mb-10"
@@ -88,9 +104,9 @@ export default function Testimonial() {
 
         {/* Bottom Row */}
         <div className="relative overflow-hidden">
-          {/* Gradient Overlays */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-20" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-20" />
+          {/* Gradient Overlays (hidden on mobile) */}
+          <div className="hidden md:block pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-20" />
+          <div className="hidden md:block pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-20" />
 
           <motion.div
             className="flex"
@@ -109,7 +125,7 @@ export default function Testimonial() {
       </div>
 
       {/* Background Accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-gray-100 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-gray-100 pointer-events-none" />
     </section>
   );
 }
